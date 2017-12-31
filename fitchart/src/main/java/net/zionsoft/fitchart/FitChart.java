@@ -64,6 +64,7 @@ public class FitChart extends View {
     private float backgroundWidthInPixel;
 
     private Value[] values;
+    private float totalValue;
 
     public FitChart(Context context) {
         super(context);
@@ -124,11 +125,14 @@ public class FitChart extends View {
         if (values == null) {
             return;
         }
-        for (Value value : values) {
+        float totalValue = this.totalValue;
+        for (int i = values.length - 1; i >= 0; --i) {
+            final Value value = values[i];
             valuePaint.setColor(value.color);
 
-            final float sweepAngle = (endAngle - startAngle) * value.value / (maxValue - minValue);
+            final float sweepAngle = (endAngle - startAngle) * totalValue / (maxValue - minValue);
             canvas.drawArc(rectF, startAngle, sweepAngle, false, valuePaint);
+            totalValue -= value.value;
         }
     }
 
@@ -172,6 +176,10 @@ public class FitChart extends View {
     public FitChart setValues(Value[] values) {
         this.values = new Value[values.length];
         System.arraycopy(values, 0, this.values, 0, values.length);
+        totalValue = 0.0F;
+        for (Value value : this.values) {
+            totalValue += value.value;
+        }
         invalidate();
         return this;
     }
