@@ -8,6 +8,12 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+        google()
+    }
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4.1'
 }
@@ -24,4 +30,6 @@ ext {
 
     versionCode = 100
     versionName = '0.1.0'
+
+    supportLibraryVersion = '27.0.2'
 }

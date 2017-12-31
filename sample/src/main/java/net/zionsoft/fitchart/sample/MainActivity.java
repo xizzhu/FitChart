@@ -17,6 +17,19 @@
 package net.zionsoft.fitchart.sample;
 
 import android.app.Activity;
+import android.os.Bundle;
+
+import net.zionsoft.fitchart.FitChart;
 
 public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ((FitChart) findViewById(R.id.fit_chart))
+                .setAngleRange(135.0F, 405.0F)
+                .setValues(new FitChart.Value[]{
+                        new FitChart.Value(50, 0xFF0038B8)
+                });
+    }
 }
