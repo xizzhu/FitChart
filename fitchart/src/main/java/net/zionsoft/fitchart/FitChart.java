@@ -55,8 +55,8 @@ public class FitChart extends View {
     private static final int DEFAULT_MAX_VALUE = 100;
 
     private static final int DEFAULT_VALUE_WIDTH_IN_DP = 8;
-    private static final int DEFAULT_BACKGROUND_COLOR = 0xFF888888;
-    private static final int DEFAULT_BACKGROUND_WIDTH_IN_DP = 4;
+    private static final int DEFAULT_BACKGROUND_COLOR = 0xFFCCCCCC;
+    private static final int DEFAULT_BACKGROUND_WIDTH_IN_DP = 8;
 
     private final RectF rectF = new RectF();
 
