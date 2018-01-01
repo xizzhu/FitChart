@@ -26,12 +26,30 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((FitChart) findViewById(R.id.fit_chart))
-                .withAngleRange(135.0F, 405.0F)
+
+        ((FitChart) findViewById(R.id.single_sequential))
+                .withAnimationType(FitChart.AnimationType.Sequential)
+                .withAngleRange(-90.0F, 270.0F)
                 .withValues(new FitChart.Value[]{
-                        new FitChart.Value(25, 0xFF0038B8),
-                        new FitChart.Value(25, 0xFF99CC00),
-                        new FitChart.Value(25, 0xFF33B5E5)
+                        new FitChart.Value(77, 0xFF0038B8)
+                });
+
+        ((FitChart) findViewById(R.id.sequential))
+                .withAnimationType(FitChart.AnimationType.Sequential)
+                .withAngleRange(-90.0F, 270.0F)
+                .withValues(new FitChart.Value[]{
+                        new FitChart.Value(20, 0xFF0038B8),
+                        new FitChart.Value(30, 0xFF99CC00),
+                        new FitChart.Value(40, 0xFF33B5E5)
+                });
+
+        ((FitChart) findViewById(R.id.parallel))
+                .withAnimationType(FitChart.AnimationType.Parallel)
+                .withAngleRange(-90.0F, 270.0F)
+                .withValues(new FitChart.Value[]{
+                        new FitChart.Value(20, 0xFF0038B8),
+                        new FitChart.Value(30, 0xFF99CC00),
+                        new FitChart.Value(40, 0xFF33B5E5)
                 });
     }
 }

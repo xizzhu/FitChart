@@ -11,9 +11,23 @@
         android:orientation="vertical">
 
         <net.zionsoft.fitchart.FitChart
-            android:id="@+id/fit_chart"
+            android:id="@+id/single_sequential"
             android:layout_width="192dp"
             android:layout_height="192dp"
+            android:padding="8dp"/>
+
+        <net.zionsoft.fitchart.FitChart
+            android:id="@+id/sequential"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"/>
+
+        <net.zionsoft.fitchart.FitChart
+            android:id="@+id/parallel"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:layout_marginTop="16dp"
             android:padding="8dp"/>
     </LinearLayout>
 </ScrollView>

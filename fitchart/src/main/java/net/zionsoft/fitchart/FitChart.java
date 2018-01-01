@@ -16,6 +16,7 @@
 
 package net.zionsoft.fitchart;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -23,9 +24,11 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.UiThread;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 public class FitChart extends View {
     public static class Value {
@@ -37,6 +40,12 @@ public class FitChart extends View {
             this.value = value;
             this.color = color;
         }
+    }
+
+    public enum AnimationType {
+        None,
+        Sequential,
+        Parallel
     }
 
     private static final float DEFAULT_START_ANGLE = 0.0F;
@@ -62,6 +71,9 @@ public class FitChart extends View {
 
     private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float backgroundWidthInPixel;
+
+    private AnimationType animationType = AnimationType.None;
+    private float animationFraction = 1.0F;
 
     private Value[] values;
     private float totalValue;
@@ -101,6 +113,32 @@ public class FitChart extends View {
     }
 
     @Override
+    public void invalidate() {
+        if (animationType == AnimationType.None || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            animationFraction = 1.0F;
+            super.invalidate();
+        } else {
+            animateValues();
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
+    private void animateValues() {
+        animationFraction = 0.0F;
+
+        final ValueAnimator animator = ValueAnimator.ofFloat(0.0F, 1.0F).setDuration(1000L);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                animationFraction = (float) valueAnimator.getAnimatedValue();
+                FitChart.super.invalidate();
+            }
+        });
+        animator.start();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         final int width = getWidth();
         final int height = getHeight();
@@ -125,15 +163,61 @@ public class FitChart extends View {
         if (values == null) {
             return;
         }
+        switch (animationType) {
+            case None:
+            case Parallel:
+                drawParallel(canvas);
+                break;
+            case Sequential:
+                drawSequential(canvas);
+                break;
+        }
+    }
+
+    private void drawParallel(Canvas canvas) {
         float totalValue = this.totalValue;
         for (int i = values.length - 1; i >= 0; --i) {
             final Value value = values[i];
             valuePaint.setColor(value.color);
 
             final float sweepAngle = (endAngle - startAngle) * totalValue / (maxValue - minValue);
-            canvas.drawArc(rectF, startAngle, sweepAngle, false, valuePaint);
+            canvas.drawArc(rectF, startAngle, sweepAngle * animationFraction, false, valuePaint);
             totalValue -= value.value;
         }
+    }
+
+    private void drawSequential(Canvas canvas) {
+        final float maxValueToDraw = totalValue * animationFraction;
+        int lastIndexToDraw = 0;
+        float totalValue = 0.0F;
+        for (Value value : values) {
+            totalValue += value.value;
+            if (totalValue >= maxValueToDraw) {
+                break;
+            } else {
+                ++lastIndexToDraw;
+            }
+        }
+
+        final float lastValue = maxValueToDraw - (totalValue - values[lastIndexToDraw].value);
+        totalValue = maxValueToDraw;
+        for (int i = lastIndexToDraw; i >= 0; --i) {
+            final Value value = values[i];
+            valuePaint.setColor(value.color);
+
+            final float sweepAngle = (endAngle - startAngle) * totalValue / (maxValue - minValue);
+            canvas.drawArc(rectF, startAngle, sweepAngle, false, valuePaint);
+            if (i == lastIndexToDraw) {
+                totalValue -= lastValue;
+            } else {
+                totalValue -= value.value;
+            }
+        }
+    }
+
+    public FitChart withAnimationType(AnimationType animationType) {
+        this.animationType = animationType;
+        return this;
     }
 
     @UiThread
