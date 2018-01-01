@@ -137,17 +137,17 @@ public class FitChart extends View {
     }
 
     @UiThread
-    public FitChart setStartAngle(float startAngle) {
-        return setAngleRange(startAngle, endAngle);
+    public FitChart withStartAngle(float startAngle) {
+        return withAngleRange(startAngle, endAngle);
     }
 
     @UiThread
-    public FitChart setEndAngle(float endAngle) {
-        return setAngleRange(startAngle, endAngle);
+    public FitChart withEndAngle(float endAngle) {
+        return withAngleRange(startAngle, endAngle);
     }
 
     @UiThread
-    public FitChart setAngleRange(float startAngle, float endAngle) {
+    public FitChart withAngleRange(float startAngle, float endAngle) {
         this.startAngle = startAngle;
         this.endAngle = endAngle;
         invalidate();
@@ -155,17 +155,17 @@ public class FitChart extends View {
     }
 
     @UiThread
-    public FitChart setMinValue(int minValue) {
-        return setValueRange(minValue, maxValue);
+    public FitChart withMinValue(int minValue) {
+        return withValueRange(minValue, maxValue);
     }
 
     @UiThread
-    public FitChart setMaxValue(int maxValue) {
-        return setValueRange(minValue, maxValue);
+    public FitChart withMaxValue(int maxValue) {
+        return withValueRange(minValue, maxValue);
     }
 
     @UiThread
-    public FitChart setValueRange(int minValue, int maxValue) {
+    public FitChart withValueRange(int minValue, int maxValue) {
         this.minValue = minValue;
         this.maxValue = maxValue;
         invalidate();
@@ -173,7 +173,7 @@ public class FitChart extends View {
     }
 
     @UiThread
-    public FitChart setValues(Value[] values) {
+    public FitChart withValues(Value[] values) {
         this.values = new Value[values.length];
         System.arraycopy(values, 0, this.values, 0, values.length);
         totalValue = 0.0F;

@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((FitChart) findViewById(R.id.fit_chart))
-                .setAngleRange(135.0F, 405.0F)
-                .setValues(new FitChart.Value[]{
+                .withAngleRange(135.0F, 405.0F)
+                .withValues(new FitChart.Value[]{
                         new FitChart.Value(25, 0xFF0038B8),
                         new FitChart.Value(25, 0xFF99CC00),
                         new FitChart.Value(25, 0xFF33B5E5)
