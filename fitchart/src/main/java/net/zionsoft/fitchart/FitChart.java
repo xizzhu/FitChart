@@ -72,7 +72,7 @@ public class FitChart extends View {
     private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float backgroundWidthInPixel;
 
-    private AnimationType animationType = AnimationType.None;
+    private AnimationType animationType = AnimationType.Sequential;
     private float animationFraction = 1.0F;
 
     private Value[] values;

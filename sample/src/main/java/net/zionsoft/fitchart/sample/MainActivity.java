@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
                 });
 
         ((FitChart) findViewById(R.id.sequential))
-                .withAnimationType(FitChart.AnimationType.Sequential)
                 .withAngleRange(-90.0F, 270.0F)
                 .withValues(new FitChart.Value[]{
                         new FitChart.Value(20, 0xFF0038B8),
