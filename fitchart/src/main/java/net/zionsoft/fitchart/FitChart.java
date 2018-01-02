@@ -55,7 +55,7 @@ public class FitChart extends View {
     private static final int DEFAULT_MAX_VALUE = 100;
 
     private static final int DEFAULT_STROKE_WIDTH_IN_DP = 16;
-    private static final int DEFAULT_BACKGROUND_COLOR = 0xFFCCCCCC;
+    private static final int DEFAULT_STROKE_COLOR = 0xFFCCCCCC;
 
     private final RectF rectF = new RectF();
 
@@ -103,7 +103,7 @@ public class FitChart extends View {
         valuePaint.setStrokeWidth(strokeWidthInPixel);
         valuePaint.setStyle(Paint.Style.STROKE);
 
-        backgroundPaint.setColor(DEFAULT_BACKGROUND_COLOR);
+        backgroundPaint.setColor(DEFAULT_STROKE_COLOR);
         backgroundPaint.setStrokeWidth(strokeWidthInPixel);
         backgroundPaint.setStyle(Paint.Style.STROKE);
     }
