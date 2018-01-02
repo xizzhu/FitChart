@@ -54,9 +54,8 @@ public class FitChart extends View {
     private static final int DEFAULT_MIN_VALUE = 0;
     private static final int DEFAULT_MAX_VALUE = 100;
 
-    private static final int DEFAULT_VALUE_WIDTH_IN_DP = 8;
+    private static final int DEFAULT_STROKE_WIDTH_IN_DP = 16;
     private static final int DEFAULT_BACKGROUND_COLOR = 0xFFCCCCCC;
-    private static final int DEFAULT_BACKGROUND_WIDTH_IN_DP = 8;
 
     private final RectF rectF = new RectF();
 
@@ -67,10 +66,8 @@ public class FitChart extends View {
     private int maxValue = DEFAULT_MAX_VALUE;
 
     private final Paint valuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private float valueWidthInPixel;
-
     private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private float backgroundWidthInPixel;
+    private float strokeWidthInPixel;
 
     private AnimationType animationType = AnimationType.Sequential;
     private float animationFraction = 1.0F;
@@ -101,14 +98,13 @@ public class FitChart extends View {
 
     private void init(Context context) {
         final float density = context.getResources().getDisplayMetrics().density;
-        valueWidthInPixel = density * DEFAULT_VALUE_WIDTH_IN_DP;
+        strokeWidthInPixel = density * DEFAULT_STROKE_WIDTH_IN_DP;
         valuePaint.setStrokeCap(Paint.Cap.ROUND);
-        valuePaint.setStrokeWidth(valueWidthInPixel);
+        valuePaint.setStrokeWidth(strokeWidthInPixel);
         valuePaint.setStyle(Paint.Style.STROKE);
 
-        backgroundWidthInPixel = density * DEFAULT_BACKGROUND_WIDTH_IN_DP;
         backgroundPaint.setColor(DEFAULT_BACKGROUND_COLOR);
-        backgroundPaint.setStrokeWidth(backgroundWidthInPixel);
+        backgroundPaint.setStrokeWidth(strokeWidthInPixel);
         backgroundPaint.setStyle(Paint.Style.STROKE);
     }
 
@@ -151,7 +147,7 @@ public class FitChart extends View {
         final float centerX = (width + leftPadding - rightPadding) / 2.0F;
         final float centerY = (height + topPadding - bottomPadding) / 2.0F;
 
-        final float halfStrokeWidth = Math.min(backgroundWidthInPixel, valueWidthInPixel) / 2.0F;
+        final float halfStrokeWidth = strokeWidthInPixel / 2.0F;
 
         rectF.left = centerX - halfSize + halfStrokeWidth;
         rectF.right = centerX + halfSize - halfStrokeWidth;
