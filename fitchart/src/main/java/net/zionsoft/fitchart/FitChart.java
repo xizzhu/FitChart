@@ -19,11 +19,13 @@ package net.zionsoft.fitchart;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.UiThread;
 import android.util.AttributeSet;
@@ -77,33 +79,41 @@ public class FitChart extends View {
 
     public FitChart(Context context) {
         super(context);
-        init(context);
+        init(context, null, 0, 0);
     }
 
     public FitChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs, 0, 0);
     }
 
     public FitChart(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FitChart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        init(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context) {
+    private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        int strokeColor = DEFAULT_STROKE_COLOR;
         final float density = context.getResources().getDisplayMetrics().density;
         strokeWidthInPixel = density * DEFAULT_STROKE_WIDTH_IN_DP;
+        if (attrs != null) {
+            final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.FitChart, defStyleAttr, defStyleRes);
+            strokeColor = attributes.getColor(R.styleable.FitChart_fc_stroke_color, DEFAULT_STROKE_COLOR);
+            strokeWidthInPixel = attributes.getDimensionPixelSize(R.styleable.FitChart_fc_stroke_width, Math.round(strokeWidthInPixel));
+            attributes.recycle();
+        }
+
         valuePaint.setStrokeCap(Paint.Cap.ROUND);
         valuePaint.setStrokeWidth(strokeWidthInPixel);
         valuePaint.setStyle(Paint.Style.STROKE);
 
-        backgroundPaint.setColor(DEFAULT_STROKE_COLOR);
+        backgroundPaint.setColor(strokeColor);
         backgroundPaint.setStrokeWidth(strokeWidthInPixel);
         backgroundPaint.setStyle(Paint.Style.STROKE);
     }
